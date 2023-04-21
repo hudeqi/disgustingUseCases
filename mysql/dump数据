@@ -1,0 +1,2 @@
+mysqldump -h -P -u -p --databases  --set-gtid-purged=OFF >/media/disk1/data_arch/hudeqi/mysql/db1.sql
+dump出一个db的所有数据，表加--tables

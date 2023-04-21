@@ -1,0 +1,3 @@
+./gradlew core:dependencies   分析出core module下的包的依赖关系
+./gradlew clean releaseTarGz    本地编译发tar包
+./gradlew clean install                发包到本地maven仓库

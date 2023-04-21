@@ -1,0 +1,14 @@
+python获取程序的debug输出
+import logging
+import sys
+logging.basicConfig(format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    stream=sys.stdout,
+                    level=logging.DEBUG)
+
+
+
+打印错误堆栈：
+import traceback
+msg = traceback.format_exc()
+print(msg)

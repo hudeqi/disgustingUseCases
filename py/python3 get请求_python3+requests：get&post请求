@@ -1,0 +1,47 @@
+1.get请求
+
+(1)没有请求参数类型
+
+1 response = requests.get(url='')
+
+2 print(response.text)
+
+(2)有请求参数的类型(键值对形式表示参数)
+
+1 response = requests.get(url='',params={'key1':'value1','key2':'value2'})
+
+2 print(response.text)
+
+(3)有请求头(键值对形式表示请求头)
+
+1 response = requests.get(url='',headers={'key1':'value1'})
+
+2 print(response.text)
+
+2.post请求
+
+(1)请求正文是application/x-www-form-urlencoded
+
+1 requests.post(url='',data={'key1':'value1','key2':'value2'},headers={'Content-Type':'application/x-www-form-urlencoded'})
+
+(2)请求正文是multipart/form-data
+
+1 requests.post(url='',data={'key1':'value1','key2':'value2'},headers={'Content-Type':'multipart/form-data'})
+
+(3)请求正文是raw
+
+传入xml格式文本
+
+1 requests.post(url='',data='<?xml ?>',headers={'Content-Type':'text/xml'})
+
+传入json格式文本
+
+1 requests.post(url='',data=json.dumps({'key1':'value1','key2':'value2'}),headers={'Content-Type':'application/json'})
+
+或者
+
+1 requests.post(url='',json={{'key1':'value1','key2':'value2'}},headers={'Content-Type':'application/json'})
+
+(4)请求正文是binary
+
+1 requests.post(url='',files={'file':open('test.xls','rb')},headers={'Content-Type':'binary'})

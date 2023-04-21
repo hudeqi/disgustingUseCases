@@ -1,0 +1,1 @@
+scala的Boolean在使用loadingCache时会有类型不匹配问题，因为Boolean是继承Any的
