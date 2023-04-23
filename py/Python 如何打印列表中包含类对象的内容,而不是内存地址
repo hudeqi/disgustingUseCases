@@ -1,0 +1,3 @@
+发现给对象定义 __str__(self) 方法，之后打印包含这类对象的list，打印出来的是对象的内存地址
+会出现这样的打印结果：[<__main__.node object at 0x7f572f860860>, <__main__.node object at 0x7f572f860dd8>]
+解决：将 __str__(self) 改为  __repr__(self)
