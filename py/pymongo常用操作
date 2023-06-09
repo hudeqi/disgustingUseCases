@@ -1,0 +1,14 @@
+count:
+c=dr_col.count({query})
+
+delete:
+dr_col.delete_many({query})
+
+update:
+dr_col.update_many({query}, {"$set":{new value}})
+
+insert:
+dr_col.insert_many([{},{}])
+
+query:
+dr_col.find({query})
