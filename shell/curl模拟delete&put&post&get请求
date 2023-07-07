@@ -1,9 +1,11 @@
 get:
 	curl -v 192.168.33.1:8080/girls/age/18
+	get有多个查询参数时，需要curl 'http://xx?x=cc&y=cc'  (加引号)
 
 post:
 	curl -v 192.168.33.1:8080/girls -d 'age=14&cupSize=C'
 	curl -v -X POST 192.168.33.1:8080/girls -d 'age=14&cupSize=C'
+	curl 'http://10.131.130.34:8083/connectors' -X POST -i -H "Content-Type:application/json" -d '{"":"","":""}
 
 put:
 	curl -v -X PUT -d "age=19&cupSize=C" 192.168.33.1:8080/girls/3

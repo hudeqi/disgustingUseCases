@@ -1,0 +1,6 @@
+public Response listUsers(final @QueryParam("bootstrapServer") String bootstrapServer,
+                              final @QueryParam("needAuth") Boolean needAuth,
+                              final @QueryParam("crossBack") Boolean crossBack,
+                              final @QueryParam("topics") String topics)
+
+注意：@QueryParam里的参数和方法里的参数要保持一样，不能一个下划线一个驼峰
