@@ -1,0 +1,26 @@
+基本操作
+from kazoo.client import KazooClient
+zk = KazooClient(hosts='192.168.91.128:2181')    #如果是本地那就写127.0.0.1
+zk.start()    #与zookeeper连接
+zk.stop()    #与zookeeper断开
+
+创建节点
+zk.create('/abc/JQK/XYZ/0001',b'this is my house',makepath=True)
+node = zk.get_children('/')  # 查看根节点有多少个子节点
+print(node)
+zk.stop()
+
+删除节点
+#recursive=True是递归删除，就是无视下面的节点是否是空，都干掉，不加上的话，会提示子节点非空，删除失败
+zk.delete('/abc/JQK/XYZ/0001',recursive=True)
+node = zk.get_children('/')  # 查看根节点有多少个子节点
+print(node)
+zk.stop()
+
+更改节点
+zk.set('/abc/JQK/XYZ/0001',b"this is my horse!")
+zk.stop()
+
+查看节点
+data, stat = zk.get('/abc/JQK/XYZ/0001')
+zk.stop()
