@@ -1,0 +1,16 @@
+from kafka import KafkaProducer
+import time
+
+topic="xxx"
+producer = KafkaProducer(bootstrap_servers='xxxx')
+
+max_msg = 99999999999
+max_edge = 10000
+min_edge = 100
+interval = 1
+
+for i in range(0, max_msg):
+    if (i >= max_edge or i <= min_edge):
+        time.sleep(interval)
+    producer.send(topic, str(i).encode('utf-8'))
+    print("sent: %s" % str(i))
