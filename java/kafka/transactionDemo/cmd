@@ -1,0 +1,4 @@
+java -cp "/data/home/dekiehu/test_jars/transactions/aa/*" org.example.TestTransaction bootstrap_servers hdq_trans_
+
+
+*是打的jar包及其依赖包

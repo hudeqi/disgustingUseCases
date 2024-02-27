@@ -1,0 +1,37 @@
+public class TestTransaction {
+    public static void main(String[] args) {
+        Properties producerProps = new Properties();
+        producerProps.put("bootstrap.servers", args[0]);
+        producerProps.put("enable.idempotence", "true");
+        producerProps.put(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, "20000");
+        producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        while (true) {
+            try {
+                producerProps.put("transactional.id", args[1] + new Random().nextInt(10) + "_" + new Random().nextInt(100));
+
+                KafkaProducer<String, String> producer = new KafkaProducer(producerProps);
+
+                producer.initTransactions();
+
+                producer.beginTransaction();
+                ProducerRecord record1 = new ProducerRecord("hdq_test", "value1");
+                producer.send(record1);
+
+                ProducerRecord record2 = new ProducerRecord("hdq_test",  "value2");
+                producer.send(record2);
+
+                ProducerRecord record3 = new ProducerRecord("hdq_test", "value3");
+                producer.send(record3);
+
+                producer.commitTransaction();
+
+                producer.close();
+            } catch (Exception e) {
+                System.out.println("ERROR: " + e);
+            }
+
+        }
+    }
+}
