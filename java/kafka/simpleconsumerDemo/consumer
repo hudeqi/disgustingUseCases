@@ -1,0 +1,44 @@
+public class TestSimpleConsumer {
+    public static void main(String[] args) {
+
+        // Kafka 配置
+        Properties properties = new Properties();
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, args[0]); // Kafka 服务器地址
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, args[1]); // 消费者组
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false"); // 禁用自动提交
+
+        // 创建 Kafka 消费者
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
+
+        // 订阅主题
+        List<PartitionInfo> partitionInfos = consumer.partitionsFor(args[2]);
+        consumer.assign(partitionInfos.stream().map(p -> new TopicPartition(p.topic(), p.partition())).collect(
+                Collectors.toSet()));
+
+        // 定义一个 Map 来存储偏移量
+        Map<TopicPartition, OffsetAndMetadata> offsetsToCommit = new HashMap<>();
+
+        // 消费消息
+        try {
+            while (true) {
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+                for (ConsumerRecord<String, String> record : records) {
+                    System.out.printf("Consumed message: key = %s, value = %s, offset = %d%n", record.key(), record.value(), record.offset());
+
+                    // 将偏移量存储到 Map 中
+                    offsetsToCommit.put(new TopicPartition(record.topic(), record.partition()), new OffsetAndMetadata(record.offset() + 1));
+                }
+                // 定期提交偏移量
+                if (!offsetsToCommit.isEmpty()) {
+                    consumer.commitSync(offsetsToCommit);
+                    offsetsToCommit.clear(); // 清空已提交的偏移量
+                }
+            }
+        } finally {
+            consumer.close();
+        }
+    }
+
+}

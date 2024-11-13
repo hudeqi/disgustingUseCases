@@ -2,3 +2,6 @@ java -cp "/data/home/dekiehu/test_jars/transactions/aa/*" org.example.TestTransa
 
 
 *是打的jar包及其依赖包
+
+
+mvn clean package  mvn打包
